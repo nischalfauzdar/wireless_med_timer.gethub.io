@@ -77,16 +77,6 @@
             color: #555;
             line-height: 1.6;
         }
-        footer {
-            background-color: rgba(0, 0, 0, 0.7); /* Faded black */
-            color: #fff;
-            padding: 5px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            text-align: center;
-            font-size: 0.8em; /* Smaller footer size */
-        }
         .alarm-list {
             margin-top: 20px;
         }
@@ -101,6 +91,16 @@
             padding: 10px;
             border-radius: 5px;
         }
+        .designer-info {
+            width: 100%;
+            background-color: #f3f3f3;
+            padding: 20px;
+            color: #333;
+            margin-top: 20px;
+            font-size: 0.9em;
+            line-height: 1.6;
+            text-align: left;
+        }
     </style>
 </head>
 <body>
@@ -109,7 +109,7 @@
         <h2>Set Your Alert Date & Time</h2>
 
         <!-- Medical Image -->
-        <img src="MEDICAL.jpg"alt="Medicine Reminder">
+        <img src="E:\Get hub work\wireless_med_timer.gethub.io\MEDICAL.jpg" alt="Medicine Reminder">
 
         <!-- Alarm Date & Time Input Form -->
         <form id="alarmForm">
@@ -133,6 +133,7 @@
         </div>
     </div>
 
+    <!-- JavaScript Section -->
     <script>
         // Array to store multiple alarms
         const alarms = [];
@@ -164,9 +165,11 @@
         };
     </script>
 
-    <!-- Footer Section -->
-    <footer>
-        <p>Website designed by Nischal Fauzdar | Registration Number: 12208108 | B.Tech Electrical and Electronic Engineering</p>
-    </footer>
+    <!-- Designer Info Section -->
+    <div class="designer-info">
+        <p><strong>Website designed by:</strong> Nischal Fauzdar</p>
+        <p><strong>Registration Number:</strong> 12208108</p>
+        <p><strong>Program:</strong> B.Tech Electrical and Electronic Engineering</p>
+    </div>
 </body>
 </html>
