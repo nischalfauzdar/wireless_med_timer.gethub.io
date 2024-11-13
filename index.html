@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wireless Medicine Timer</title>
+    <style type="text/css">
+        body {
+            background-color: #a69695;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            font-size: 2.5em;
+            color: #444;
+            margin-top: 20px;
+        }
+        h2 {
+            color: #444;
+        }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+        form {
+            margin: 20px auto;
+            text-align: center;
+        }
+        input[type="datetime-local"] {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            width: 80%;
+            margin-top: 10px;
+            text-align: center;
+        }
+        input[type="submit"] {
+            background-color: #444;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: #666;
+        }
+        .status, .notes {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px auto;
+            font-size: 1.2em;
+            text-align: center;
+        }
+        .notes p {
+            font-size: 1em;
+            color: #555;
+            line-height: 1.6;
+        }
+        footer {
+            background-color: rgba(0, 0, 0, 0.7); /* Faded black */
+            color: #fff;
+            padding: 5px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 0.8em; /* Smaller footer size */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Wireless Medicine Timer</h1>
+        <h2>Set Your Alert Date & Time</h2>
+
+        <!-- Medical Image -->
+        <img src="e:/B.TECH/5th semester/ECE235/MEDICAL.jpg" alt="Medicine Reminder">
+
+        <!-- Alarm Date & Time Input Form -->
+        <form action="/confirmation_screen.php" method="get">
+            <label for="alarm_datetime">Select Alarm Date & Time</label><br>
+            <input type="datetime-local" id="alarm_datetime" name="code" required>
+            <br><input type="submit" value="Set Alarm">
+        </form>
+
+        <!-- Current Alarm Status Display -->
+        <div class="status">
+            <h2>Current Alarm Status</h2>
+            <p>Alarm is set for: <strong id="alarmTimeDisplay">Not Set</strong></p>
+        </div>
+
+        <!-- Medical Notes -->
+        <div class="notes">
+            <h2>Important Notes</h2>
+            <p>To ensure effective results, take your medicine at the scheduled times and follow any specific dietary instructions provided by your healthcare provider.</p>
+            <p>Be sure to take medications with water, and avoid skipping doses. Regularly setting alarms will help in maintaining a consistent medicine routine.</p>
+            <p>If you experience any side effects or have questions, please consult your doctor promptly.</p>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript to dynamically update the alarm date & time display
+        document.querySelector('form').onsubmit = function (event) {
+            event.preventDefault();
+            const alarmDateTime = document.getElementById('alarm_datetime').value;
+            document.getElementById('alarmTimeDisplay').textContent = new Date(alarmDateTime).toLocaleString();
+
+            // Simulate request to ESP32 server for setting alarm
+            fetch(`/confirmation_screen.php?code=${encodeURIComponent(alarmDateTime)}`)
+                .then(response => response.text())
+                .then(data => {
+                    console.log("Alarm Set:", data);
+                })
+                .catch(error => console.error("Error setting alarm:", error));
+        };
+    </script>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>Website designed by Nischal Fauzdar | Registration Number: 12208108 | B.Tech Electrical and Electronic Engineering</p>
+    </footer>
+</body>
+</html>
