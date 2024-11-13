@@ -87,6 +87,20 @@
             text-align: center;
             font-size: 0.8em; /* Smaller footer size */
         }
+        .alarm-list {
+            margin-top: 20px;
+        }
+        .alarm-list ul {
+            list-style: none;
+            padding: 0;
+        }
+        .alarm-list li {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
@@ -98,16 +112,16 @@
         <img src="e:/B.TECH/5th semester/ECE235/MEDICAL.jpg" alt="Medicine Reminder">
 
         <!-- Alarm Date & Time Input Form -->
-        <form action="/confirmation_screen.php" method="get">
+        <form id="alarmForm">
             <label for="alarm_datetime">Select Alarm Date & Time</label><br>
-            <input type="datetime-local" id="alarm_datetime" name="code" required>
+            <input type="datetime-local" id="alarm_datetime" required>
             <br><input type="submit" value="Set Alarm">
         </form>
 
-        <!-- Current Alarm Status Display -->
-        <div class="status">
-            <h2>Current Alarm Status</h2>
-            <p>Alarm is set for: <strong id="alarmTimeDisplay">Not Set</strong></p>
+        <!-- Alarm List -->
+        <div class="alarm-list">
+            <h2>Set Alarms</h2>
+            <ul id="alarmList"></ul>
         </div>
 
         <!-- Medical Notes -->
@@ -120,19 +134,33 @@
     </div>
 
     <script>
-        // JavaScript to dynamically update the alarm date & time display
-        document.querySelector('form').onsubmit = function (event) {
+        // Array to store multiple alarms
+        const alarms = [];
+
+        // Function to update the alarm list in the UI
+        function updateAlarmList() {
+            const alarmListElement = document.getElementById("alarmList");
+            alarmListElement.innerHTML = ''; // Clear current list
+            alarms.forEach(alarm => {
+                const listItem = document.createElement('li');
+                listItem.textContent = new Date(alarm).toLocaleString();
+                alarmListElement.appendChild(listItem);
+            });
+        }
+
+        // Handle form submission
+        document.getElementById("alarmForm").onsubmit = function (event) {
             event.preventDefault();
             const alarmDateTime = document.getElementById('alarm_datetime').value;
-            document.getElementById('alarmTimeDisplay').textContent = new Date(alarmDateTime).toLocaleString();
-
-            // Simulate request to ESP32 server for setting alarm
-            fetch(`/confirmation_screen.php?code=${encodeURIComponent(alarmDateTime)}`)
-                .then(response => response.text())
-                .then(data => {
-                    console.log("Alarm Set:", data);
-                })
-                .catch(error => console.error("Error setting alarm:", error));
+            if (alarmDateTime) {
+                alarms.push(alarmDateTime); // Add the new alarm to the array
+                updateAlarmList(); // Update the displayed alarm list
+                // Optionally, send the alarm data to the ESP32 server
+                fetch(`/confirmation_screen.php?code=${encodeURIComponent(alarmDateTime)}`)
+                    .then(response => response.text())
+                    .then(data => console.log("Alarm Set:", data))
+                    .catch(error => console.error("Error setting alarm:", error));
+            }
         };
     </script>
 
